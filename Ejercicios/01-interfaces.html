@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios de Jetpack Compose - Nivel Principiante</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .exercise {
+            margin-bottom: 50px;
+            padding: 25px;
+            border: 2px solid #e74c3c;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+        }
+
+        .exercise h2 {
+            color: #e74c3c;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin-bottom: 20px;
+        }
+
+        .code-section {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .preview {
+            border: 2px solid #17a2b8;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f8f9fa;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .preview h4 {
+            color: #17a2b8;
+            margin-bottom: 15px;
+        }
+
+        /* Simulaciones de UI */
+        .mock-phone {
+            width: 250px;
+            height: 400px;
+            border: 8px solid #333;
+            border-radius: 25px;
+            background: white;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .exercise1-result {
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .exercise2-result {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .username {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #2c3e50;
+        }
+
+        .user-type {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            margin: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #2980b9;
+        }
+
+        .list-item {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+            text-align: left;
+            width: 100%;
+        }
+
+        .input-field {
+            width: 90%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin: 8px 0;
+            width: 90%;
+        }
+
+        .tips {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .tips h5 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 Ejercicios de Jetpack Compose - Nivel Principiante</h1>
+
+        <!-- Ejercicio 1 -->
+        <div class="exercise">
+            <h2>Ejercicio 1: Textos Básicos</h2>
+            <div class="description">
+                <strong>Objetivo:</strong> Crear una interfaz simple con dos textos, uno debajo del otro, simulando un
+                título y un subtítulo.
+            </div>
+
+            <h3>📝 Instrucciones:</h3>
+            <ul>
+                <li>Crea una función <span class="highlight">@Composable</span> llamada <code>TituloSubtitulo()</code>
+                </li>
+                <li>Usa un <span class="highlight">Column</span> para organizar los elementos verticalmente</li>
+                <li>Añade dos componentes <span class="highlight">Text</span></li>
+                <li>El primer texto debe ser el título con tamaño de fuente grande</li>
+                <li>El segundo texto debe ser el subtítulo con tamaño menor</li>
+            </ul>
+
+            <div class="code-section">
+                @Composable<br>
+                fun TituloSubtitulo() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Column {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Mi Primera App",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 24.sp,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight = FontWeight.Bold<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Aprendiendo Jetpack
+                Compose",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 16.sp<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+
+            <div class="preview">
+                <h4>📱 Resultado Esperado:</h4>
+                <div class="mock-phone exercise1-result">
+                    <div class="title">Mi Primera App</div>
+                    <div class="subtitle">Aprendiendo Jetpack Compose</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 2 -->
+        <div class="exercise">
+            <h2>Ejercicio 2: Centrado de Contenido</h2>
+            <div class="description">
+                <strong>Objetivo:</strong> Tomar el ejercicio anterior y centrar todo el contenido tanto vertical como
+                horizontalmente en la pantalla.
+            </div>
+
+            <h3>📝 Instrucciones:</h3>
+            <ul>
+                <li>Modifica la función del ejercicio anterior</li>
+                <li>Añade <span class="highlight">Modifier.fillMaxSize()</span> al Column</li>
+                <li>Usa <span class="highlight">verticalArrangement</span> y <span
+                        class="highlight">horizontalAlignment</span></li>
+                <li>Centra el contenido usando <code>Arrangement.Center</code> y
+                    <code>Alignment.CenterHorizontally</code></li>
+            </ul>
+
+            <div class="code-section">
+                @Composable<br>
+                fun TituloSubtituloCentrado() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Column(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier = Modifier.fillMaxSize(),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalArrangement = Arrangement.Center,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horizontalAlignment = Alignment.CenterHorizontally<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Mi Primera App",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 24.sp,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight = FontWeight.Bold<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Aprendiendo Jetpack
+                Compose",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 16.sp<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+
+            <div class="preview">
+                <h4>📱 Resultado Esperado:</h4>
+                <div class="mock-phone exercise2-result">
+                    <div class="title">Mi Primera App</div>
+                    <div class="subtitle">Aprendiendo Jetpack Compose</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 3 -->
+        <div class="exercise">
+            <h2>Ejercicio 3: Perfil de Usuario con Avatar</h2>
+            <div class="description">
+                <strong>Objetivo:</strong> Crear una pantalla de perfil con una imagen circular (avatar), nombre de
+                usuario y tipo de usuario.
+            </div>
+
+            <h3>📝 Instrucciones:</h3>
+            <ul>
+                <li>Crea una función <code>PerfilUsuario()</code></li>
+                <li>Usa <span class="highlight">Image</span> con <code>Modifier.clip(CircleShape)</code> para hacer la
+                    imagen circular</li>
+                <li>Añade <span class="highlight">Modifier.size()</span> para controlar el tamaño del avatar</li>
+                <li>Organiza los elementos en un Column centrado</li>
+                <li>Usa diferentes estilos de texto para el nombre y el tipo</li>
+            </ul>
+
+            <div class="code-section">
+                @Composable<br>
+                fun PerfilUsuario() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Column(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier = Modifier.fillMaxSize(),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalArrangement = Arrangement.Center,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horizontalAlignment = Alignment.CenterHorizontally<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;painter = painterResource(id =
+                R.drawable.avatar),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contentDescription =
+                "Avatar",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier = Modifier<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.size(80.dp)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.clip(CircleShape)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier = Modifier.height(16.dp))<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Ana García",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 20.sp,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight = FontWeight.Bold<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Desarrolladora
+                Android",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 14.sp,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color = Color.Gray<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+
+            <div class="preview">
+                <h4>📱 Resultado Esperado:</h4>
+                <div class="mock-phone exercise2-result">
+                    <div class="avatar">AG</div>
+                    <div class="username">Ana García</div>
+                    <div class="user-type">Desarrolladora Android</div>
+                </div>
+            </div>
+
+            <div class="tips">
+                <h5>💡 Nota Importante:</h5>
+                <p><strong>Para usar imágenes reales:</strong> Debes añadir tu imagen a la carpeta
+                    <code>res/drawable</code> de tu proyecto Android Studio. Si eres principiante, te recomendamos
+                    empezar con la <strong>Opción B</strong> (avatar con iniciales) ya que no requiere archivos
+                    externos.</p>
+                <p><strong>Concepto clave:</strong> <code>Box</code> es útil para superponer elementos, mientras que
+                    <code>Column</code> los organiza verticalmente.</p>
+            </div>
+        </div>
+
+        <!-- Ejercicio 4 -->
+        <div class="exercise">
+            <h2>Ejercicio 4: Botones y Eventos</h2>
+            <div class="description">
+                <strong>Objetivo:</strong> Añadir interactividad con botones que respondan a clicks del usuario.
+            </div>
+
+            <h3>📝 Instrucciones:</h3>
+            <ul>
+                <li>Crea una pantalla con un contador y dos botones</li>
+                <li>Usa <span class="highlight">remember</span> y <span class="highlight">mutableStateOf</span> para
+                    manejar el estado</li>
+                <li>Implementa botones para incrementar y decrementar el contador</li>
+                <li>Organiza los elementos usando <span class="highlight">Column</span> y <span
+                        class="highlight">Row</span></li>
+            </ul>
+
+            <div class="code-section">
+                @Composable<br>
+                fun ContadorConBotones() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var contador by remember { mutableStateOf(0) }<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Column(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier = Modifier.fillMaxSize(),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalArrangement = Arrangement.Center,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horizontalAlignment = Alignment.CenterHorizontally<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Contador:
+                $contador",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 24.sp,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight = FontWeight.Bold<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier = Modifier.height(16.dp))<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Button(onClick = { contador-- })
+                {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text("-")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier =
+                Modifier.width(16.dp))<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Button(onClick = { contador++ })
+                {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text("+")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+
+            <div class="preview">
+                <h4>📱 Resultado Esperado:</h4>
+                <div class="mock-phone exercise2-result">
+                    <div class="title" style="margin-bottom: 20px;">Contador: 5</div>
+                    <div style="display: flex; gap: 15px;">
+                        <button class="button">-</button>
+                        <button class="button">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 5 -->
+        <div class="exercise">
+            <h2>Ejercicio 5: Lista Simple</h2>
+            <div class="description">
+                <strong>Objetivo:</strong> Crear una lista de elementos usando LazyColumn para mostrar una lista de
+                tareas.
+            </div>
+
+            <h3>📝 Instrucciones:</h3>
+            <ul>
+                <li>Crea una lista de strings con nombres de tareas</li>
+                <li>Usa <span class="highlight">LazyColumn</span> para mostrar la lista</li>
+                <li>Cada elemento debe estar en un <span class="highlight">Card</span> con padding</li>
+                <li>Añade un título a la pantalla</li>
+            </ul>
+
+            <div class="code-section">
+                @Composable<br>
+                fun ListaTareas() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;val tareas = listOf(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Aprender Compose",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Crear mi primera app",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Practicar con layouts",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Implementar navegación",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Añadir animaciones"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Column(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier = Modifier.fillMaxSize()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Mis Tareas",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 24.sp,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight =
+                FontWeight.Bold,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier =
+                Modifier.padding(16.dp)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LazyColumn {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items(tareas) { tarea -><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Card(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier
+                = Modifier<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.fillMaxWidth()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.padding(8.dp)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text
+                = tarea,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier
+                = Modifier.padding(16.dp)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+
+            <div class="preview">
+                <h4>📱 Resultado Esperado:</h4>
+                <div class="mock-phone" style="justify-content: flex-start; align-items: stretch; padding: 16px;">
+                    <div class="title" style="text-align: left; margin-bottom: 16px;">Mis Tareas</div>
+                    <div class="card">Aprender Compose</div>
+                    <div class="card">Crear mi primera app</div>
+                    <div class="card">Practicar con layouts</div>
+                    <div class="card">Implementar navegación</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 6 -->
+        <div class="exercise">
+            <h2>Ejercicio 6: Formulario Básico</h2>
+            <div class="description">
+                <strong>Objetivo:</strong> Crear un formulario simple con campos de texto y validación básica.
+            </div>
+
+            <h3>📝 Instrucciones:</h3>
+            <ul>
+                <li>Crea campos <span class="highlight">OutlinedTextField</span> para nombre y email</li>
+                <li>Usa <span class="highlight">remember</span> para manejar el estado de los campos</li>
+                <li>Añade un botón para "enviar" el formulario</li>
+                <li>Muestra un mensaje cuando se presione el botón</li>
+            </ul>
+
+            <div class="code-section">
+                @Composable<br>
+                fun FormularioBasico() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var nombre by remember { mutableStateOf("") }<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var email by remember { mutableStateOf("") }<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var mensaje by remember { mutableStateOf("") }<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Column(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier = Modifier<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.fillMaxSize()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.padding(16.dp),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalArrangement = Arrangement.Center<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "Registro",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 24.sp,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight = FontWeight.Bold<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier = Modifier.height(16.dp))<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OutlinedTextField(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = nombre,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onValueChange = { nombre = it
+                },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;label = { Text("Nombre") },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier =
+                Modifier.fillMaxWidth()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OutlinedTextField(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = email,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onValueChange = { email = it
+                },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;label = { Text("Email") },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier =
+                Modifier.fillMaxWidth()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier = Modifier.height(16.dp))<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Button(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick = {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mensaje
+                = "¡Hola $nombre!"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier =
+                Modifier.fillMaxWidth()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text("Enviar")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mensaje.isNotEmpty()) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier =
+                Modifier.height(16.dp))<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text =
+                mensaje,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color =
+                MaterialTheme.colorScheme.primary<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+
+            <div class="preview">
+                <h4>📱 Resultado Esperado:</h4>
+                <div class="mock-phone" style="justify-content: center; align-items: stretch; padding: 16px;">
+                    <div class="title" style="text-align: center; margin-bottom: 16px;">Registro</div>
+                    <input class="input-field" placeholder="Nombre" value="Ana" />
+                    <input class="input-field" placeholder="Email" value="ana@email.com" />
+                    <button class="button" style="width: 100%; margin: 16px 0;">Enviar</button>
+                    <div style="text-align: center; color: #3498db; font-weight: bold;">¡Hola Ana!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 7 -->
+        <div class="exercise">
+            <h2>Ejercicio 7: Navegación Simple</h2>
+            <div class="description">
+                <strong>Objetivo:</strong> Implementar navegación básica entre dos pantallas usando Navigation Compose.
+            </div>
+
+            <h3>📝 Instrucciones:</h3>
+            <ul>
+                <li>Configura <span class="highlight">NavController</span> y <span class="highlight">NavHost</span></li>
+                <li>Crea dos pantallas: "Inicio" y "Perfil"</li>
+                <li>Añade botones para navegar entre pantallas</li>
+                <li>Usa <code>navController.navigate()</code> para cambiar de pantalla</li>
+            </ul>
+
+            <div class="code-section">
+                @Composable<br>
+                fun AppNavegacion() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;val navController = rememberNavController()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;NavHost(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;navController = navController,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startDestination = "inicio"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;composable("inicio") {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PantallaInicio(navController)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;composable("perfil") {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PantallaPerfil(navController)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }<br>
+                <br>
+                @Composable<br>
+                fun PantallaInicio(navController: NavController) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Column(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier = Modifier.fillMaxSize(),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalArrangement = Arrangement.Center,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horizontalAlignment = Alignment.CenterHorizontally<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text("Pantalla de Inicio", fontSize = 24.sp)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier = Modifier.height(16.dp))<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Button(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick = {
+                navController.navigate("perfil") }<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text("Ir a Perfil")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+
+            <div class="preview">
+                <h4>📱 Resultado Esperado:</h4>
+                <div class="mock-phone exercise2-result">
+                    <div class="title" style="margin-bottom: 20px;">Pantalla de Inicio</div>
+                    <button class="button">Ir a Perfil</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 8 -->
+        <div class="exercise">
+            <h2>Ejercicio 8: Estados y Efectos</h2>
+            <div class="description">
+                <strong>Objetivo:</strong> Implementar un temporizador simple usando estados y efectos secundarios.
+            </div>
+
+            <h3>📝 Instrucciones:</h3>
+            <ul>
+                <li>Crea un temporizador que cuente hacia atrás desde 10 segundos</li>
+                <li>Usa <span class="highlight">LaunchedEffect</span> para manejar el temporizador</li>
+                <li>Añade botones para iniciar, pausar y reiniciar</li>
+                <li>Cambia el color del texto cuando el tiempo esté por acabarse</li>
+            </ul>
+
+            <div class="code-section">
+                @Composable<br>
+                fun Temporizador() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var tiempo by remember { mutableStateOf(10) }<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var activo by remember { mutableStateOf(false) }<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;LaunchedEffect(activo) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (activo && tiempo > 0) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay(1000)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tiempo--<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (tiempo == 0) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activo = false<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Column(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifier = Modifier.fillMaxSize(),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalArrangement = Arrangement.Center,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horizontalAlignment = Alignment.CenterHorizontally<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = "$tiempo",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 48.sp,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight =
+                FontWeight.Bold,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color = if (tiempo <= 3)
+                    Color.Red else Color.Black<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier = Modifier.height(32.dp))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Button(<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick
+                    = { activo = !activo }<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text(if
+                    (activo) "Pausar" else "Iniciar")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spacer(modifier =
+                    Modifier.width(16.dp))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Button(<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick
+                    = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tiempo
+                    = 10<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activo
+                    = false<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text("Reiniciar")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    }
+            </div>
+
+            <div class="preview">
+                <h4>📱 Resultado Esperado:</h4>
+                <div class="mock-phone exercise2-result">
+                    <div style="font-size: 48px; font-weight: bold; color: #e74c3c; margin-bottom: 32px;">3</div>
+                    <div style="display: flex; gap: 15px;">
+                        <button class="button">Pausar</button>
+                        <button class="button">Reiniciar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consejos generales -->
+        <div class="tips">
+            <h5>💡 Consejos Generales para Todos los Ejercicios:</h5>
+            <ul>
+                <li><strong>Imports necesarios:</strong> Asegúrate de importar todos los componentes que uses
+                    (<code>androidx.compose.material.*</code>, <code>androidx.compose.ui.*</code>, etc.)</li>
+                <li><strong>Preview:</strong> Añade <code>@Preview</code> a tus funciones composables para ver el
+                    resultado en el editor</li>
+                <li><strong>Modifiers:</strong> Experimenta con diferentes modifiers como <code>padding()</code>,
+                    <code>fillMaxWidth()</code>, <code>background()</code></li>
+                <li><strong>Estado:</strong> Recuerda usar <code>remember</code> para mantener el estado durante
+                    recomposiciones</li>
+                <li><strong>Depuración:</strong> Usa colores de fondo temporales para entender cómo se organizan los
+                    elementos</li>
+                <li><strong>Material Design:</strong> Explora los colores y estilos de <code>MaterialTheme</code> para
+                    conseguir una apariencia profesional</li>
+            </ul>
+        </div>
+
+        <div
+            style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; color: white;">
+            <h3>🎉 ¡Felicidades!</h3>
+            <p>Has completado los ejercicios básicos de Jetpack Compose. ¡Ahora estás listo para crear interfaces más
+                complejas!</p>
+        </div>
+    </div>
+</body>
+
+</html>
