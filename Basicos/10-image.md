@@ -147,16 +147,20 @@ Para cargar imágenes desde URLs, necesitas la librería Coil:
 implementation("io.coil-kt:coil-compose:2.5.0")
 ```
 
-### Usar AsyncImage
+### Usar GlideImage
 ```kotlin
-import coil.compose.AsyncImage
+Añadir en build.gradle.kts (APP)
+implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
+Añadir permisos en el Manifest
+<uses-permission android:name="android.permission.INTERNET" />
 
 @Composable
 fun ImagenDeInternet() {
-    AsyncImage(
-        model = "https://ejemplo.com/mi-imagen.jpg",
-        contentDescription = "Imagen desde internet",
-        modifier = Modifier.size(200.dp)
+    GlideImage(
+        model = "https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png",
+        contentDescription = "Superman",
+        modifier = Modifier.size(150.dp)
     )
 }
 ```
@@ -165,12 +169,12 @@ fun ImagenDeInternet() {
 ```kotlin
 @Composable
 fun ImagenConPlaceholder() {
-    AsyncImage(
-        model = "https://ejemplo.com/imagen.jpg",
-        contentDescription = "Imagen",
-        placeholder = painterResource(R.drawable.loading),  // Mientras carga
-        error = painterResource(R.drawable.error),          // Si hay error
-        modifier = Modifier.size(150.dp)
+    GlideImage(
+        model = "https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png",
+        contentDescription = "Superman",
+        modifier = Modifier.size(150.dp),
+        loading = placeholder(R.drawable.baseline_cloud_download_24),
+        failure = placeholder(R.drawable.outline_account_circle_off_24)
     )
 }
 ```
