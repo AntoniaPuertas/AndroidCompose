@@ -224,7 +224,7 @@ fun MixedContentList() {
         item {
             Text(
                 text = "Lista de elementos",
-                style = MaterialTheme.typography.h4,
+                style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(16.dp)
             )
         }
@@ -265,6 +265,7 @@ fun MixedContentList() {
 fun ScrollControlList() {
     val items = (1..100).map { "Item #$it" }
     val listState = rememberLazyListState()  // Estado de la lista
+    val coroutineScope = rememberCoroutineScope()
     
     LazyColumn(state = listState) {
         items(items) { item ->
@@ -278,8 +279,10 @@ fun ScrollControlList() {
     // Botón para volver al inicio
     FloatingActionButton(
         onClick = {
-            // Scroll al primer elemento
-            listState.animateScrollToItem(0)
+            // Scroll al primer elemento con animación
+             coroutineScope.launch {
+                listState.animateScrollToItem(0)
+            }
         }
     ) {
         Icon(Icons.Default.KeyboardArrowUp, contentDescription = "Subir")

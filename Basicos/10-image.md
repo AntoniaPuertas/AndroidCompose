@@ -1,1006 +1,363 @@
-# Componente Text en Jetpack Compose - Guía Completa
+# Componente Image en Jetpack Compose - Guía Básica
 
-El componente `Text` es uno de los elementos más fundamentales en Jetpack Compose. Es responsable de mostrar texto en la interfaz de usuario y ofrece una gran cantidad de opciones de personalización.
+## 🖼️ ¿Qué es el componente Image?
 
-## ¿Qué es el componente Text?
+El componente `Image` en Jetpack Compose se usa para **mostrar imágenes** en tu aplicación. Es el equivalente al `ImageView` en el sistema tradicional de Android, pero optimizado para Compose.
 
-`Text` es un Composable que renderiza texto estático en la pantalla. Es el equivalente a `TextView` en el sistema de vistas tradicional de Android, pero optimizado para Compose.
+### Usos comunes:
+- Mostrar fotos de perfil
+- Iconos grandes
+- Imágenes de productos
+- Fondos decorativos
+- Logotipos
 
-### Características principales:
-- **Renderizado eficiente** de texto
-- **Soporte completo de tipografía** Material Design
-- **Personalización avanzada** de estilos, colores y layout
-- **Accesibilidad integrada**
-- **Soporte para texto multi-idioma**
-- **Animaciones de texto** fluidas
-
-## Sintaxis básica
+## 📝 Sintaxis básica
 
 ```kotlin
-Text(text = "Hola Mundo")
-```
-
-## Parámetros principales
-
-### Estructura completa del componente
-
-```kotlin
-Text(
-    text = "Mi texto",                           // Contenido del texto
-    modifier = Modifier,                         // Modificadores de layout y estilo
-    color = Color.Unspecified,                   // Color del texto
-    fontSize = TextUnit.Unspecified,             // Tamaño de la fuente
-    fontStyle = null,                           // Estilo: normal, italic
-    fontWeight = null,                          // Peso: normal, bold, etc.
-    fontFamily = null,                          // Familia de fuente
-    letterSpacing = TextUnit.Unspecified,       // Espaciado entre caracteres
-    textDecoration = null,                      // Decoración: underline, strikethrough
-    textAlign = null,                           // Alineación del texto
-    lineHeight = TextUnit.Unspecified,          // Altura de línea
-    overflow = TextOverflow.Clip,               // Comportamiento de desbordamiento
-    softWrap = true,                            // Salto de línea automático
-    maxLines = Int.MAX_VALUE,                   // Número máximo de líneas
-    minLines = 1,                               // Número mínimo de líneas
-    onTextLayout = null,                        // Callback de layout
-    style = LocalTextStyle.current              // Estilo base
+Image(
+    painter = painterResource(R.drawable.mi_imagen),
+    contentDescription = "Descripción de la imagen"
 )
 ```
 
-## Ejemplos básicos
+### Parámetros principales:
+- **`painter`**: De dónde viene la imagen (recurso, URL, etc.)
+- **`contentDescription`**: Descripción para accesibilidad
+- **`modifier`**: Tamaño, padding y otros estilos
+- **`contentScale`**: Cómo se ajusta la imagen
 
-### Texto simple
+## 🖼️ Cargar imágenes desde recursos
+
+### Paso 1: Agregar imagen a res/drawable
+Coloca tu imagen en la carpeta `app/src/main/res/drawable/`
+
+### Paso 2: Usar la imagen
 ```kotlin
 @Composable
-fun SimpleText() {
-    Text(text = "Este es un texto básico")
-}
-```
-
-### Texto con estilo personalizado
-```kotlin
-@Composable
-fun StyledText() {
-    Text(
-        text = "Texto con estilo",
-        fontSize = 24.sp,
-        color = Color.Blue,
-        fontWeight = FontWeight.Bold
+fun ImagenBasica() {
+    Image(
+        painter = painterResource(R.drawable.mi_foto),
+        contentDescription = "Mi foto de perfil",
+        modifier = Modifier.size(100.dp)
     )
 }
 ```
 
-### Texto con múltiples líneas
+### Con tamaño específico
 ```kotlin
 @Composable
-fun MultilineText() {
-    Text(
-        text = "Este es un texto muy largo que se dividirá automáticamente en múltiples líneas para adaptarse al ancho disponible del contenedor.",
-        maxLines = 3,
-        overflow = TextOverflow.Ellipsis
-    )
-}
-```
-
-## Tipografía y estilos predefinidos
-
-### Usando Material Theme Typography
-```kotlin
-@Composable
-fun TypographyExamples() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(16.dp)
-    ) {
-        Text(
-            text = "Display Large",
-            style = MaterialTheme.typography.displayLarge
-        )
-        Text(
-            text = "Headline Medium",
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            text = "Title Large",
-            style = MaterialTheme.typography.titleLarge
-        )
-        Text(
-            text = "Body Large",
-            style = MaterialTheme.typography.bodyLarge
-        )
-        Text(
-            text = "Body Medium",
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Text(
-            text = "Body Small",
-            style = MaterialTheme.typography.bodySmall
-        )
-        Text(
-            text = "Label Large",
-            style = MaterialTheme.typography.labelLarge
-        )
-        Text(
-            text = "Label Medium",
-            style = MaterialTheme.typography.labelMedium
-        )
-        Text(
-            text = "Label Small",
-            style = MaterialTheme.typography.labelSmall
-        )
-    }
-}
-```
-
-### Estilos de tipografía disponibles
-
-| Estilo | Uso recomendado |
-|--------|-----------------|
-| `displayLarge` | Títulos muy grandes, splash screens |
-| `displayMedium` | Títulos principales |
-| `displaySmall` | Títulos secundarios |
-| `headlineLarge` | Headers importantes |
-| `headlineMedium` | Subtítulos principales |
-| `headlineSmall` | Subtítulos secundarios |
-| `titleLarge` | Títulos de secciones |
-| `titleMedium` | Títulos de cards o items |
-| `titleSmall` | Títulos pequeños |
-| `bodyLarge` | Texto principal grande |
-| `bodyMedium` | Texto principal estándar |
-| `bodySmall` | Texto secundario |
-| `labelLarge` | Labels de botones grandes |
-| `labelMedium` | Labels estándar |
-| `labelSmall` | Labels pequeños, captions |
-
-## Personalización de colores
-
-### Colores básicos
-```kotlin
-@Composable
-fun ColorExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(
-            text = "Texto rojo",
-            color = Color.Red
-        )
-        Text(
-            text = "Texto verde",
-            color = Color(0xFF4CAF50)
-        )
-        Text(
-            text = "Color del tema",
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = "Color con opacidad",
-            color = Color.Black.copy(alpha = 0.6f)
-        )
-    }
-}
-```
-
-### Colores del tema Material
-```kotlin
-@Composable
-fun ThemeColorExamples() {
-    val colorScheme = MaterialTheme.colorScheme
-    
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Primary", color = colorScheme.primary)
-        Text("Secondary", color = colorScheme.secondary)
-        Text("Tertiary", color = colorScheme.tertiary)
-        Text("Error", color = colorScheme.error)
-        Text("On Background", color = colorScheme.onBackground)
-        Text("On Surface", color = colorScheme.onSurface)
-        Text("Outline", color = colorScheme.outline)
-    }
-}
-```
-
-## Formateo de texto avanzado
-
-### Peso y estilo de fuente
-```kotlin
-@Composable
-fun FontStyleExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Peso Light", fontWeight = FontWeight.Light)
-        Text("Peso Normal", fontWeight = FontWeight.Normal)
-        Text("Peso Medium", fontWeight = FontWeight.Medium)
-        Text("Peso SemiBold", fontWeight = FontWeight.SemiBold)
-        Text("Peso Bold", fontWeight = FontWeight.Bold)
-        Text("Peso ExtraBold", fontWeight = FontWeight.ExtraBold)
-        Text("Estilo Italic", fontStyle = FontStyle.Italic)
-        Text("Estilo Normal", fontStyle = FontStyle.Normal)
-    }
-}
-```
-
-### Decoraciones de texto
-```kotlin
-@Composable
-fun TextDecorationExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(
-            text = "Texto subrayado",
-            textDecoration = TextDecoration.Underline
-        )
-        Text(
-            text = "Texto tachado",
-            textDecoration = TextDecoration.LineThrough
-        )
-        Text(
-            text = "Subrayado y tachado",
-            textDecoration = TextDecoration.Underline + TextDecoration.LineThrough
-        )
-    }
-}
-```
-
-### Espaciado de caracteres y líneas
-```kotlin
-@Composable
-fun SpacingExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(
-            text = "Espaciado normal de caracteres",
-            letterSpacing = 0.sp
-        )
-        Text(
-            text = "E s p a c i a d o   a m p l i o",
-            letterSpacing = 4.sp
-        )
-        Text(
-            text = "Texto con altura de línea normal\nSegunda línea del texto\nTercera línea",
-            lineHeight = 20.sp
-        )
-        Text(
-            text = "Texto con altura de línea amplia\nSegunda línea del texto\nTercera línea",
-            lineHeight = 32.sp
-        )
-    }
-}
-```
-
-## Alineación del texto
-
-### Alineaciones horizontales
-```kotlin
-@Composable
-fun TextAlignmentExamples() {
-    Column(
+fun ImagenConTamaño() {
+    Image(
+        painter = painterResource(R.drawable.logo),
+        contentDescription = "Logo de la app",
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = "Texto alineado a la izquierda",
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.LightGray.copy(alpha = 0.3f))
-                .padding(8.dp)
-        )
-        Text(
-            text = "Texto centrado",
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.LightGray.copy(alpha = 0.3f))
-                .padding(8.dp)
-        )
-        Text(
-            text = "Texto alineado a la derecha",
-            textAlign = TextAlign.End,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.LightGray.copy(alpha = 0.3f))
-                .padding(8.dp)
-        )
-        Text(
-            text = "Este texto está justificado y se distribuye uniformemente a lo ancho del contenedor cuando es lo suficientemente largo",
-            textAlign = TextAlign.Justify,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.LightGray.copy(alpha = 0.3f))
-                .padding(8.dp)
-        )
-    }
-}
-```
-
-## Manejo del desbordamiento (Overflow)
-
-### Opciones de overflow
-```kotlin
-@Composable
-fun OverflowExamples() {
-    val longText = "Este es un texto muy largo que definitivamente no cabrá en una sola línea y causará desbordamiento"
-    
-    Column(
-        modifier = Modifier.width(200.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        // Clip - Corta el texto
-        Text(
-            text = "Clip: $longText",
-            maxLines = 1,
-            overflow = TextOverflow.Clip,
-            modifier = Modifier
-                .background(Color.Yellow.copy(alpha = 0.3f))
-                .padding(4.dp)
-        )
-        
-        // Ellipsis - Agrega puntos suspensivos
-        Text(
-            text = "Ellipsis: $longText",
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .background(Color.Green.copy(alpha = 0.3f))
-                .padding(4.dp)
-        )
-        
-        // Visible - Permite que se desborde
-        Text(
-            text = "Visible: $longText",
-            maxLines = 1,
-            overflow = TextOverflow.Visible,
-            modifier = Modifier
-                .background(Color.Blue.copy(alpha = 0.3f))
-                .padding(4.dp)
-        )
-    }
-}
-```
-
-### Control de líneas
-```kotlin
-@Composable
-fun LineControlExamples() {
-    val mediumText = "Este es un texto de longitud media que puede ocupar varias líneas dependiendo del ancho del contenedor."
-    
-    Column(
-        modifier = Modifier.width(250.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(
-            text = "Máximo 2 líneas:\n$mediumText",
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        
-        Text(
-            text = "Mínimo 3 líneas:\n$mediumText",
-            minLines = 3
-        )
-        
-        Text(
-            text = "Sin salto de línea automático: $mediumText",
-            softWrap = false,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-```
-
-## Texto seleccionable
-
-### Habilitando selección
-```kotlin
-@Composable
-fun SelectableTextExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text(
-            text = "Este texto NO es seleccionable"
-        )
-        
-        SelectionContainer {
-            Text(
-                text = "Este texto SÍ es seleccionable. Mantén presionado para seleccionar."
-            )
-        }
-        
-        SelectionContainer {
-            Column {
-                Text("Primer párrafo seleccionable")
-                Text("Segundo párrafo también seleccionable")
-            }
-        }
-        
-        // Deshabilitar selección para parte del contenido
-        SelectionContainer {
-            Column {
-                Text("Texto seleccionable")
-                DisableSelection {
-                    Text("Este texto NO es seleccionable dentro del contenedor")
-                }
-                Text("Más texto seleccionable")
-            }
-        }
-    }
-}
-```
-
-## Texto clickeable
-
-### ClickableText básico
-```kotlin
-@Composable
-fun ClickableTextExample() {
-    val annotatedText = buildAnnotatedString {
-        append("Este es un texto normal con un ")
-        
-        // Parte clickeable
-        pushStringAnnotation(
-            tag = "clickable",
-            annotation = "Este es el texto clickeable"
-        )
-        withStyle(
-            style = SpanStyle(
-                color = Color.Blue,
-                textDecoration = TextDecoration.Underline
-            )
-        ) {
-            append("enlace clickeable")
-        }
-        pop()
-        
-        append(" en el medio.")
-    }
-    
-    ClickableText(
-        text = annotatedText,
-        onClick = { offset ->
-            annotatedText.getStringAnnotations(
-                tag = "clickable",
-                start = offset,
-                end = offset
-            ).firstOrNull()?.let {
-                // Manejar el clic en el texto
-                println("Clicked on: ${it.item}")
-            }
-        }
+            .width(200.dp)
+            .height(100.dp)
     )
 }
 ```
 
-### Múltiples enlaces en un texto
+## 📐 ContentScale - Cómo se ajusta la imagen
+
+### Crop - Recorta para llenar todo el espacio
 ```kotlin
-@Composable
-fun MultipleLinksExample() {
-    val annotatedText = buildAnnotatedString {
-        append("Visita nuestro ")
-        
-        // Primer enlace
-        pushStringAnnotation(tag = "website", annotation = "https://example.com")
-        withStyle(
-            style = SpanStyle(
-                color = Color.Blue,
-                textDecoration = TextDecoration.Underline
-            )
-        ) {
-            append("sitio web")
-        }
-        pop()
-        
-        append(" o síguenos en ")
-        
-        // Segundo enlace
-        pushStringAnnotation(tag = "twitter", annotation = "https://twitter.com/example")
-        withStyle(
-            style = SpanStyle(
-                color = Color.Blue,
-                textDecoration = TextDecoration.Underline
-            )
-        ) {
-            append("Twitter")
-        }
-        pop()
-        
-        append(" para más información.")
-    }
-    
-    ClickableText(
-        text = annotatedText,
-        onClick = { offset ->
-            // Verificar enlace de sitio web
-            annotatedText.getStringAnnotations(
-                tag = "website",
-                start = offset,
-                end = offset
-            ).firstOrNull()?.let { annotation ->
-                // Abrir navegador
-                println("Opening website: ${annotation.item}")
-            }
-            
-            // Verificar enlace de Twitter
-            annotatedText.getStringAnnotations(
-                tag = "twitter",
-                start = offset,
-                end = offset
-            ).firstOrNull()?.let { annotation ->
-                // Abrir Twitter
-                println("Opening Twitter: ${annotation.item}")
-            }
-        }
-    )
-}
+Image(
+    painter = painterResource(R.drawable.foto),
+    contentDescription = "Foto",
+    contentScale = ContentScale.Crop,
+    modifier = Modifier.size(150.dp)
+)
 ```
 
-## Texto con formato rich (AnnotatedString)
-
-### Estilos múltiples en un solo texto
+### Fit - Ajusta toda la imagen sin recortar
 ```kotlin
-@Composable
-fun RichTextExample() {
-    val styledText = buildAnnotatedString {
-        withStyle(style = SpanStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)) {
-            append("Título Principal\n")
-        }
-        
-        withStyle(style = SpanStyle(fontSize = 16.sp, color = Color.Gray)) {
-            append("Subtítulo en gris\n\n")
-        }
-        
-        append("Este es texto normal con ")
-        
-        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-            append("texto en negrita")
-        }
-        
-        append(" y ")
-        
-        withStyle(
-            style = SpanStyle(
-                fontStyle = FontStyle.Italic,
-                color = Color.Red
-            )
-        ) {
-            append("texto en cursiva roja")
-        }
-        
-        append(".\n\nTambién podemos tener ")
-        
-        withStyle(
-            style = SpanStyle(
-                background = Color.Yellow,
-                color = Color.Black
-            )
-        ) {
-            append("texto resaltado")
-        }
-        
-        append(" como si fuera un marcador.")
-    }
-    
-    Text(text = styledText)
-}
+Image(
+    painter = painterResource(R.drawable.foto),
+    contentDescription = "Foto",
+    contentScale = ContentScale.Fit,
+    modifier = Modifier.size(150.dp)
+)
 ```
 
-### Párrafos con estilos diferentes
+### FillBounds - Estira la imagen para llenar el espacio
+```kotlin
+Image(
+    painter = painterResource(R.drawable.foto),
+    contentDescription = "Foto",
+    contentScale = ContentScale.FillBounds,
+    modifier = Modifier.size(150.dp)
+)
+```
+
+## 🔵 Imágenes con formas
+
+### Imagen circular (avatar)
 ```kotlin
 @Composable
-fun ParagraphStyledText() {
-    val styledText = buildAnnotatedString {
-        withStyle(
-            style = ParagraphStyle(
-                textAlign = TextAlign.Center,
-                lineHeight = 30.sp
-            )
-        ) {
-            withStyle(
-                style = SpanStyle(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            ) {
-                append("Párrafo centrado\n")
-            }
-            append("Este párrafo está centrado y tiene un espaciado de línea mayor.\n\n")
-        }
-        
-        withStyle(
-            style = ParagraphStyle(
-                textAlign = TextAlign.Justify,
-                textIndent = TextIndent(firstLine = 16.sp)
-            )
-        ) {
-            append("Este párrafo está justificado y tiene una sangría en la primera línea. " +
-                   "Este tipo de formato es útil para crear texto que parece más formal o similar a un documento.\n\n")
-        }
-        
-        withStyle(
-            style = ParagraphStyle(
-                textAlign = TextAlign.End
-            )
-        ) {
-            append("Este párrafo está alineado a la derecha.")
-        }
-    }
-    
-    Text(
-        text = styledText,
+fun Avatar() {
+    Image(
+        painter = painterResource(R.drawable.perfil),
+        contentDescription = "Avatar del usuario",
+        contentScale = ContentScale.Crop,
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+            .size(80.dp)
+            .clip(CircleShape)
     )
 }
 ```
 
-## Familias de fuentes personalizadas
-
-### Usando fuentes del sistema
+### Imagen con esquinas redondeadas
 ```kotlin
 @Composable
-fun SystemFontExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(
-            text = "Fuente Default",
-            fontFamily = FontFamily.Default
-        )
-        Text(
-            text = "Fuente Serif",
-            fontFamily = FontFamily.Serif
-        )
-        Text(
-            text = "Fuente Sans Serif",
-            fontFamily = FontFamily.SansSerif
-        )
-        Text(
-            text = "Fuente Monospace",
-            fontFamily = FontFamily.Monospace
-        )
-        Text(
-            text = "Fuente Cursive",
-            fontFamily = FontFamily.Cursive
-        )
-    }
+fun ImagenRedondeada() {
+    Image(
+        painter = painterResource(R.drawable.producto),
+        contentDescription = "Producto",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(120.dp)
+            .clip(RoundedCornerShape(16.dp))
+    )
 }
 ```
 
-### Fuentes personalizadas (ejemplo conceptual)
+### Imagen con borde
 ```kotlin
-// Definir la familia de fuentes personalizada
-val customFontFamily = FontFamily(
-    Font(R.font.my_regular_font, FontWeight.Normal),
-    Font(R.font.my_bold_font, FontWeight.Bold),
-    Font(R.font.my_italic_font, FontWeight.Normal, FontStyle.Italic)
-)
-
 @Composable
-fun CustomFontExample() {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(
-            text = "Texto con fuente personalizada normal",
-            fontFamily = customFontFamily,
-            fontWeight = FontWeight.Normal
-        )
-        Text(
-            text = "Texto con fuente personalizada en negrita",
-            fontFamily = customFontFamily,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = "Texto con fuente personalizada en cursiva",
-            fontFamily = customFontFamily,
-            fontStyle = FontStyle.Italic
-        )
-    }
+fun ImagenConBorde() {
+    Image(
+        painter = painterResource(R.drawable.foto),
+        contentDescription = "Foto con borde",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(100.dp)
+            .clip(CircleShape)
+            .border(3.dp, Color.Blue, CircleShape)
+    )
 }
 ```
 
-## Casos de uso prácticos
+## 🌐 AsyncImage - Cargar imágenes desde internet
 
-### Lista de elementos con texto estructurado
+Para cargar imágenes desde URLs, necesitas la librería Coil:
+
+### Agregar dependencia
 ```kotlin
-data class NewsItem(
-    val title: String,
-    val author: String,
-    val time: String,
-    val content: String
-)
+// En build.gradle.kts (Module: app)
+implementation("io.coil-kt:coil-compose:2.5.0")
+```
+
+### Usar AsyncImage
+```kotlin
+import coil.compose.AsyncImage
 
 @Composable
-fun NewsItemCard(item: NewsItem) {
+fun ImagenDeInternet() {
+    AsyncImage(
+        model = "https://ejemplo.com/mi-imagen.jpg",
+        contentDescription = "Imagen desde internet",
+        modifier = Modifier.size(200.dp)
+    )
+}
+```
+
+### Con placeholder y error
+```kotlin
+@Composable
+fun ImagenConPlaceholder() {
+    AsyncImage(
+        model = "https://ejemplo.com/imagen.jpg",
+        contentDescription = "Imagen",
+        placeholder = painterResource(R.drawable.loading),  // Mientras carga
+        error = painterResource(R.drawable.error),          // Si hay error
+        modifier = Modifier.size(150.dp)
+    )
+}
+```
+
+## 🎨 Casos de uso comunes
+
+### 1. Card con imagen
+```kotlin
+@Composable
+fun TarjetaConImagen() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            // Título
-            Text(
-                text = item.title,
-                style = MaterialTheme.typography.headlineSmall,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            // Información del autor y tiempo
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Por ${item.author}",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = item.time,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            
-            Spacer(modifier = Modifier.height(12.dp))
-            
-            // Contenido
-            Text(
-                text = item.content,
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                lineHeight = 20.sp
-            )
-        }
-    }
-}
-```
-
-### Texto de estado con diferentes colores
-```kotlin
-enum class Status { SUCCESS, WARNING, ERROR, LOADING }
-
-@Composable
-fun StatusText(status: Status, message: String) {
-    val (color, icon) = when (status) {
-        Status.SUCCESS -> Color(0xFF4CAF50) to "✓"
-        Status.WARNING -> Color(0xFFFF9800) to "⚠"
-        Status.ERROR -> Color(0xFFF44336) to "✗"
-        Status.LOADING -> Color(0xFF2196F3) to "⏳"
-    }
-    
-    Text(
-        text = "$icon $message",
-        color = color,
-        fontWeight = FontWeight.Medium,
-        modifier = Modifier.padding(8.dp)
-    )
-}
-
-@Composable
-fun StatusExamples() {
-    Column {
-        StatusText(Status.SUCCESS, "Operación completada exitosamente")
-        StatusText(Status.WARNING, "Advertencia: Revisa los datos")
-        StatusText(Status.ERROR, "Error: No se pudo conectar")
-        StatusText(Status.LOADING, "Cargando datos...")
-    }
-}
-```
-
-### Chat con texto formateado
-```kotlin
-@Composable
-fun ChatMessage(
-    message: String,
-    sender: String,
-    time: String,
-    isCurrentUser: Boolean
-) {
-    val backgroundColor = if (isCurrentUser) {
-        MaterialTheme.colorScheme.primary
-    } else {
-        MaterialTheme.colorScheme.surfaceVariant
-    }
-    
-    val contentColor = if (isCurrentUser) {
-        MaterialTheme.colorScheme.onPrimary
-    } else {
-        MaterialTheme.colorScheme.onSurfaceVariant
-    }
-    
-    Card(
-        modifier = Modifier
-            .fillMaxWidth(0.8f)
-            .padding(4.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
-        )
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp)
-        ) {
-            if (!isCurrentUser) {
-                Text(
-                    text = sender,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = contentColor.copy(alpha = 0.7f),
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-            }
-            
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodyMedium,
-                color = contentColor
-            )
-            
-            Spacer(modifier = Modifier.height(4.dp))
-            
-            Text(
-                text = time,
-                style = MaterialTheme.typography.labelSmall,
-                color = contentColor.copy(alpha = 0.6f),
-                textAlign = if (isCurrentUser) TextAlign.End else TextAlign.Start,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
-}
-```
-
-## Accesibilidad
-
-### Mejores prácticas de accesibilidad
-```kotlin
-@Composable
-fun AccessibleTextExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        // Texto con descripción semántica
-        Text(
-            text = "Título principal",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.semantics {
-                heading()  // Marca como encabezado para lectores de pantalla
-            }
-        )
-        
-        // Texto de estado con información adicional para accesibilidad
-        Text(
-            text = "Error: Campo obligatorio",
-            color = MaterialTheme.colorScheme.error,
-            modifier = Modifier.semantics {
-                contentDescription = "Error: El campo de nombre es obligatorio y debe completarse"
-                role = Role.Text
-            }
-        )
-        
-        // Texto con contraste adecuado
-        Text(
-            text = "Texto con contraste apropiado",
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.bodyLarge
-        )
-        
-        // Evitar texto demasiado pequeño
-        Text(
-            text = "Texto con tamaño mínimo recomendado",
-            fontSize = 16.sp  // Tamaño mínimo recomendado para legibilidad
-        )
-    }
-}
-```
-
-## Performance y optimizaciones
-
-### Evitar recomposiciones innecesarias
-```kotlin
-@Composable
-fun OptimizedTextDisplay(
-    items: List<String>,
-    selectedItem: String
-) {
-    LazyColumn {
-        items(
-            items = items,
-            key = { item -> item }  // Key estable para evitar recomposiciones
-        ) { item ->
-            val isSelected = item == selectedItem
-            val textStyle = if (isSelected) {
-                MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-            } else {
-                MaterialTheme.typography.bodyMedium
-            }
-            
-            Text(
-                text = item,
-                style = textStyle,
-                color = if (isSelected) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    MaterialTheme.colorScheme.onSurface
-                },
+        Column {
+            Image(
+                painter = painterResource(R.drawable.producto),
+                contentDescription = "Producto",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .height(200.dp)
+            )
+            Text(
+                text = "Nombre del producto",
+                modifier = Modifier.padding(16.dp)
             )
         }
     }
 }
 ```
 
-### Reutilización de estilos
+### 2. Lista con avatares
 ```kotlin
-// Definir estilos reutilizables
-object AppTextStyles {
-    val cardTitle = TextStyle(
-        fontSize = 18.sp,
-        fontWeight = FontWeight.SemiBold,
-        lineHeight = 24.sp
-    )
-    
-    val cardSubtitle = TextStyle(
-        fontSize = 14.sp,
-        fontWeight = FontWeight.Normal,
-        lineHeight = 20.sp
-    )
-    
-    val caption = TextStyle(
-        fontSize = 12.sp,
-        fontWeight = FontWeight.Normal,
-        lineHeight = 16.sp
-    )
-}
-
 @Composable
-fun ReusableStylesExample() {
-    Card {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Título de la tarjeta",
-                style = AppTextStyles.cardTitle,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = "Subtítulo explicativo",
-                style = AppTextStyles.cardSubtitle,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = "Información adicional",
-                style = AppTextStyles.caption,
-                color = MaterialTheme.colorScheme.outline
+fun ContactoConAvatar() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(R.drawable.avatar),
+            contentDescription = "Avatar",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
+        )
+        
+        Spacer(modifier = Modifier.width(16.dp))
+        
+        Column {
+            Text("Juan Pérez")
+            Text("juan@email.com", color = Color.Gray)
+        }
+    }
+}
+```
+
+### 3. Galería simple
+```kotlin
+@Composable
+fun GaleriaSimple() {
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(16.dp)
+    ) {
+        items(5) { index ->
+            Image(
+                painter = painterResource(R.drawable.foto),
+                contentDescription = "Foto $index",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(8.dp))
             )
         }
     }
 }
 ```
 
-## Mejores prácticas
+## ⚠️ Errores comunes
 
-### ✅ Hacer
-1. **Usar estilos de tipografía** del MaterialTheme cuando sea posible
-2. **Proporcionar contentDescription** para accesibilidad cuando sea necesario
-3. **Limitar maxLines** para textos que pueden ser muy largos
-4. **Usar overflow = TextOverflow.Ellipsis** para texto truncado
-5. **Mantener contraste adecuado** entre texto y fondo
-6. **Reutilizar estilos** para consistencia
-7. **Considerar el tamaño mínimo** de 16.sp para legibilidad
+### Error 1: Olvidar contentDescription
+```kotlin
+// ❌ MAL - Sin descripción para accesibilidad
+Image(
+    painter = painterResource(R.drawable.foto),
+    contentDescription = null  // Malo para accesibilidad
+)
 
-### ❌ Evitar
-1. **No usar tamaños de texto demasiado pequeños** (menor a 12.sp)
-2. **No abusar del texto en cursiva** - reduce legibilidad
-3. **No usar colores con contraste insuficiente**
-4. **No crear demasiados estilos custom** sin necesidad
-5. **No olvidar maxLines** en listas o cards
-6. **No usar fontWeight extremos** sin razón de diseño
-7. **No ignorar el espaciado** entre elementos de texto
+// ✅ BIEN - Con descripción
+Image(
+    painter = painterResource(R.drawable.foto),
+    contentDescription = "Foto de perfil del usuario"
+)
+```
 
-## Resumen
+### Error 2: No controlar el tamaño
+```kotlin
+// ❌ MAL - Imagen muy grande
+Image(
+    painter = painterResource(R.drawable.foto_gigante),
+    contentDescription = "Foto"
+    // Sin modifier - puede ocupar toda la pantalla
+)
 
-El componente `Text` en Jetpack Compose es extremadamente versátil y potente:
+// ✅ BIEN - Con tamaño controlado
+Image(
+    painter = painterResource(R.drawable.foto_gigante),
+    contentDescription = "Foto",
+    modifier = Modifier.size(200.dp)
+)
+```
 
-- **Tipografía Material Design** integrada
-- **Personalización completa** de estilos, colores y formateo
-- **Soporte para texto rico** con múltiples estilos
-- **Funcionalidad de selección y clic**
-- **Optimizaciones de performance** incorporadas
-- **Accesibilidad** de primera clase
+### Error 3: ContentScale incorrecto
+```kotlin
+// ❌ MAL - Imagen distorsionada
+Image(
+    painter = painterResource(R.drawable.foto),
+    contentDescription = "Foto",
+    contentScale = ContentScale.FillBounds,  // Puede distorsionar
+    modifier = Modifier.size(100.dp)
+)
 
-Dominar el componente `Text` es esencial para crear interfaces de usuario atractivas y funcionales en Compose, ya que el texto es uno de los elementos más importantes para comunicar información a los usuarios.
+// ✅ BIEN - Mantiene proporción
+Image(
+    painter = painterResource(R.drawable.foto),
+    contentDescription = "Foto",
+    contentScale = ContentScale.Crop,  // O ContentScale.Fit
+    modifier = Modifier.size(100.dp)
+)
+```
+
+## 📚 ContentScale - Guía rápida
+
+| ContentScale | ¿Qué hace? | ¿Cuándo usar? |
+|--------------|------------|---------------|
+| `Crop` | Recorta para llenar el espacio | Avatares, thumbnails |
+| `Fit` | Muestra toda la imagen | Logos, iconos importantes |
+| `FillBounds` | Estira para llenar | Raramente (distorsiona) |
+| `FillWidth` | Llena el ancho | Banners horizontales |
+| `FillHeight` | Llena la altura | Imágenes verticales |
+
+## 🎯 Mejores prácticas
+
+### ✅ SÍ hacer:
+- Usar `contentDescription` siempre
+- Controlar el tamaño con `modifier`
+- Usar `ContentScale.Crop` para avatares
+- Usar `ContentScale.Fit` para logos
+- Optimizar imágenes antes de agregarlas a la app
+
+### ❌ NO hacer:
+- Omitir `contentDescription`
+- Usar imágenes muy pesadas sin redimensionar
+- Usar `FillBounds` si no es necesario
+- Cargar muchas imágenes grandes sin lazy loading
+
+## 🔧 Formatos soportados
+
+### ✅ Formatos compatibles:
+- **PNG** - Mejor para imágenes con transparencia
+- **JPEG** - Mejor para fotos (menor tamaño)
+- **WebP** - Buena compresión y calidad
+- **GIF** - Animaciones simples
+- **SVG** - Gráficos vectoriales (con librerías adicionales)
+
+### 📁 Organización recomendada:
+```
+res/drawable/
+├── ic_launcher.png          // Iconos de la app
+├── avatar_placeholder.png   // Placeholder para avatares
+├── logo.png                // Logo de la aplicación
+└── photo_sample.jpg        // Fotos de ejemplo
+```
+
+## 🎉 Resumen
+
+- **`Image`** muestra imágenes en Compose
+- **`painterResource()`** para imágenes locales
+- **`AsyncImage`** para imágenes de internet
+- **`contentScale`** controla cómo se ajusta la imagen
+- **`modifier`** controla tamaño y forma
+- **`contentDescription`** es obligatorio para accesibilidad
+
+¡Con estos conceptos básicos ya puedes mostrar imágenes en tus aplicaciones Compose! 🚀
